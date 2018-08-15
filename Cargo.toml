@@ -1,0 +1,6 @@
+[package]
+name = "vdom_lib"
+version = "0.1.0"
+authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
+
+[dependencies]
