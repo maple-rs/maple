@@ -1,21 +1,21 @@
+use crate::engine::Engine;
+use crate::renderable::Renderable;
+use crate::context::Context;
 ///
 /// 
 /// 
 /// 
 /// 
-pub trait View {
+pub trait View<E, CE>
+    where E: Engine,
+          CE: Engine,
+{
     type InputContext: Context;
     type OutputContext: Context;
+    type Renderable: Renderable<E>;
 
     fn receive_context(&mut self, ctx: Self::InputContext) -> Self::OutputContext;
-}
-
-pub trait ViewX {
-    type Engine: Engine;
-    type ChildrenEngine: Engine = Self::Engine;
-    type Renderable: Renderable<Engine = Self::Engine>;
-
-    fn build<C: Renderable<Engine = Self::ChildrenEngine> + 'static>(self, children: Option<C>) -> Self::Renderable;
+    fn build<C: Renderable<CE> + 'static>(self, children: Option<C>) -> Self::Renderable;
 }
 
 // It will have sense when `specialization` will be ready to use

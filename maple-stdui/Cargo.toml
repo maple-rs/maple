@@ -1,0 +1,11 @@
+cargo-features = ["edition"]
+
+[package]
+name = "maple-stdui"
+version = "0.1.0"
+authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+maple-macro = {path = "../maple-macro"}
+maple-core = {path = "../maple-core"}

@@ -1,0 +1,16 @@
+cargo-features = ["edition"]
+
+[package]
+name = "maple-macro"
+version = "0.1.1"
+authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+syn = {version = "*", features=["full", "extra-traits"]}
+quote = "*"
+proc-macro2 = {version = "*", features=["nightly", "proc-macro"]}
+maple-core = { path="../maple-core" }
+
+[lib]
+proc-macro = true

@@ -1,0 +1,8 @@
+[package]
+name = "maple-examples"
+version = "0.1.0"
+authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
+
+[dependencies]
+maple = {path = "../maple"}
+maple-stdweb-dom = {path = "../maple-stdweb-dom"}

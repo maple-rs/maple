@@ -1,5 +1,7 @@
 use std::marker::PhantomData;
 
+use crate::component::ComponentMsg;
+
 pub trait Callback {
     type Arg;
 
