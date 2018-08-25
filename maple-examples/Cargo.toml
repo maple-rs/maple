@@ -5,4 +5,4 @@ authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
 
 [dependencies]
 maple = {path = "../maple"}
-maple-stdweb-dom = {path = "../maple-stdweb-dom"}
+maple-stdweb-dom = {path = "../../maple-stdweb-dom"}

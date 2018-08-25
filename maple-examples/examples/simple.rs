@@ -18,65 +18,49 @@ use maple::prelude::prelude::Panel;
 
 use maple_stdweb_dom::*;
 
-// fn get_rest(count: usize) -> impl Renderable<HtmlEngine> {
-//     let mut vec = Vec::new();
+fn get_rest(count: usize) -> impl Renderable<HtmlEngine> {
+    let mut vec = Vec::new();
 
-//     for i in 0..count {
-//         vec.push(view! { <Span> "Number " {format!("{}", i + 1)} </Span> });
-//     }
+    for i in 0..count {
+        vec.push(view! { <Span> "Number " {format!("{}", i + 1)} </Span> });
+    }
 
-//     return vec;
-// }
-
+    return vec;
+}
 
 fn main() {
-    let x = {
-        let ctx_default = DefaultContext;
+    let x = view! {
+        <Div>
+            <Div>
+                <Canvas>
+                    <Circle cx={95} cy={70} r={20} />
+                    <Rect x1={20} y1={20} x2={150} y2={100} />
+                </Canvas>
+            </Div>
+            <Panel>
+                <Tabs on_tab_change={|idx| println!("Tab has changed! New tab idx {}", idx)}>
+                    <Header />
+                    <Body>
+                        <Tab title="Tab 1">
+                            <Span>"Tab 1 Content"</Span>
+                        </Tab>
+   
+                        <Tab title="Tab 2">
+                            <Button>"But in Tab " {1 + 1} </Button>
+                        </Tab>
 
-        let mut p0_props = <Div as Component>::Props::default();
-        let mut comp_p0 = Div::create(p0_props);
-        
-        // let ctx_p0 = comp_p0.receive_context(ctx_default.clone());
-        // let p0 = comp_p0.build::<Stub<_>>(None);
-
-
-        // p0
-        0
+                        <Tab title="Tab 3">
+                            { ... get_rest(5) }
+                        </Tab>
+                    </Body>
+                </Tabs>
+            </Panel>
+        </Div>
     };
-
-    // let x = view! {
-    //     <Div>
-    //         <Div>
-    //             <Canvas>
-    //                 <Circle cx={95} cy={70} r={20} />
-    //                 <Rect x1={20} y1={20} x2={150} y2={100} />
-    //             </Canvas>
-    //         </Div>
-
-    //         <Panel>
-    //             <Tabs on_tab_change={|idx| println!("Tab has changed! New tab idx {}", idx)}>
-    //                 <Header />
-    //                 <Body>
-    //                     <Tab title="Tab 1">
-    //                         <Span>"Tab 1 Content"</Span>
-    //                     </Tab>
-
-    //                     <Tab title="Tab 2">
-    //                         <Button>"But in Tab " {1 + 1} </Button>
-    //                     </Tab>
-
-    //                     <Tab title="Tab 3">
-    //                         { ... get_rest(5) }
-    //                     </Tab>
-    //                 </Body>
-    //             </Tabs>
-    //         </Panel>
-    //     </Div>
-    // };
 
     let eng = HtmlEngine::new();
 
-    // x.render(&eng);
+    x.render(&eng);
 
     println!("{}", eng.to_string());
 }
