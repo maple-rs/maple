@@ -2,12 +2,6 @@ use crate::engine::Engine;
 use crate::renderable::Renderable;
 use std::marker::PhantomData;
 
-#[macro_export]
-macro_rules! children {
-    ($w:expr) => ($w);
-    ($w1:expr, $($rest:tt)*) => (Children2::new($w1, children!($($rest)*)));
-}
-
 pub struct Children2<E, CH0, CH1> 
     where E: Engine,
           CH0: Renderable<E>,

@@ -1,4 +1,4 @@
-#![feature(associated_type_defaults, never_type, unsize, specialization)]
+#![feature(proc_macro, associated_type_defaults, never_type, unsize, specialization)]
 
 pub mod convert;
 pub mod engine;
@@ -6,11 +6,16 @@ pub mod context;
 pub mod callback;
 pub mod component;
 
-#[macro_use]
 pub mod children;
 pub mod renderable;
 pub mod node;
 pub mod view;
+
+#[macro_export]
+macro_rules! children {
+    ($w:expr) => ($w);
+    ($w1:expr, $($rest:tt)*) => (Children2::new($w1, children!($($rest)*)));
+}
 
 pub mod prelude {
     pub use crate::convert::{MyFrom, MyInto};

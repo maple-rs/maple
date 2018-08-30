@@ -94,8 +94,8 @@ impl Component for Tabs {
 }
 
 pub struct Header {
-    props: HeaderProps,
-    tabs_ctx: Option<TabsContext<DefaultContext>>
+    pub props: HeaderProps,
+    pub tabs_ctx: Option<TabsContext<DefaultContext>>
 }
 
 pub enum HeaderEvent {
@@ -136,7 +136,7 @@ impl Component for Header {
 }
 
 pub struct Body {
-    props: BodyProps
+    pub props: BodyProps
 }
 
 #[derive(Default)]
@@ -151,7 +151,7 @@ impl Component for Body {
 }
 
 pub struct Tab {
-   props: TabProps
+   pub props: TabProps
 }
 
 #[derive(Default)]
