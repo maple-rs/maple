@@ -1,34 +1,36 @@
-use syn::synom::Synom;
-use syn::{LitStr, Expr};
-use crate::tag::Tag;
+use syn::parse::{Parse, ParseStream, Result};
+use quote::ToTokens;
 
+use crate::tag::Tag;
 
 #[derive(Debug)]
 crate enum Node {
     Tag(Tag),
-    Text(LitStr),
-    Expr(Expr),
-    Embed(Expr)
+    Text(syn::LitStr),
+    Expr(syn::Expr),
+    Embed(syn::Expr)
 }
 
-impl Synom for Node {
-    named!(parse -> Self, do_parse!(
-        value: alt!(
-            syn!(Tag) => { |tag| Node::Tag(tag) }
-            |
-            braces!(
-                do_parse!(
-                        punct!(.) >> 
-                        punct!(.) >> 
-                        punct!(.) >> 
-                    tt: syn!(Expr) >> (tt)
-                )) => { |d| Node::Embed(d.1) }
-            |
-            braces!(syn!(Expr)) => { |d| Node::Expr(d.1) }
-            |
-            syn!(LitStr) => { |_str| Node::Text(_str) }
-        ) >>
+impl Parse for Node {
+    fn parse(input: ParseStream) -> Result<Self> {
+        if input.peek(syn::LitStr) {
+            Ok(Node::Text(input.parse()?))
+        } else if input.peek(syn::token::Brace) {
+            let content;
+            braced!(content in input);
 
-        (value)
-    ));
+            Ok(if content.peek(Token![...]) {
+                content.parse::<Token![...]>()?;
+                let expr = content.parse::<syn::Expr>()?;
+
+                Node::Embed(expr)
+            } else {
+                let expr = content.parse::<syn::Expr>()?;
+
+                Node::Expr(expr)
+            })
+        } else {
+            Ok(Node::Tag(input.parse()?))
+        }
+    }
 }

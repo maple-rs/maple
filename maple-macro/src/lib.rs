@@ -1,3 +1,4 @@
+ #![feature(crate_visibility_modifier)]
 
 mod attribute;
 mod node;
@@ -8,16 +9,15 @@ extern crate syn;
 
 #[macro_use]
 extern crate quote;
+extern crate proc_macro;
 
-use proc_macro::{TokenStream};
-use syn::synom::Synom;
+use self::proc_macro::{TokenStream};
 use syn::{TypePath, Ident, Expr};
-use syn::buffer::{TokenBuffer};
-// use syn::parsers::{named, do_parse, punct, syn, call, alt, braces, many0};
 use quote::*;
 
 use self::node::Node;
 use self::attribute::{Attribute, AttributeValue};
+use self::tag::Tag;
 
 fn visit_attribute(ident: &Ident, attr: &Attribute, _ctx: &TypePath) -> impl ToTokens {
     let attr_name = &attr.name;
@@ -110,25 +110,25 @@ fn visit_node(parent: &str, idx: &mut u32, node: &Node, stream: &mut proc_macro2
 
 #[proc_macro]
 pub fn view(input: TokenStream) -> TokenStream {
-    let buffer = TokenBuffer::new(input);
-    let cursor = buffer.begin();
-    let res = Node::parse(cursor);
+    let toks = match syn::parse(input) {
+        Ok(root) => {
+            let mut output = proc_macro2::TokenStream::new();
+            let mut thread = proc_macro2::TokenStream::new();
 
-    let mut output = proc_macro2::TokenStream::new();
-    let mut thread = proc_macro2::TokenStream::new();
-    let mut idx = 0;
+            let mut idx = 0;
 
-    match res {
-        Ok((root, _)) => visit_node("default", &mut idx, &root, &mut output, &mut thread),
-        Err(err) => panic!("Error: {:?}", err)
+            visit_node("default", &mut idx, &root, &mut output, &mut thread);
+
+            quote! {{
+                let ctx_default = DefaultContext;
+                #output
+                #thread
+                p0
+            }}
+        }
+
+        Err(err) => err.to_compile_error()
     };
-
-    let toks = quote! {{
-        let ctx_default = DefaultContext;
-        #output
-        #thread
-        p0
-    }};
 
     toks.into()
 }

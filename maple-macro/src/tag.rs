@@ -1,7 +1,7 @@
 use crate::attribute::Attribute;
 use crate::node::Node;
 use syn::TypePath;
-use syn::synom::Synom;
+use syn::parse::{Parse, ParseStream, Result};
 
 #[derive(Debug)]
 crate struct Tag {
@@ -10,49 +10,54 @@ crate struct Tag {
     pub body: Vec<Node>
 }
 
-impl Tag {
-    pub fn new(open: TypePath, close: Option<TypePath>, attrs: Vec<Attribute>, body: Vec<Node>) -> Result<Self, String> {
-        if let Some(close_ref) = &close {
-            if &open != close_ref {
-                return Err(format!("Open({}) and closing({}) tags are not matching!", quote!{#open}, quote!{#close_ref}))
-            }
+impl Parse for Tag {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let mut attrs: Vec<Attribute> = Vec::new();
+        let mut children: Vec<Node> = Vec::new();
+        let mut open_path: TypePath;
+        let mut close_path: TypePath;
+
+        // parsing opening "<"
+        input.parse::<Token![<]>()?;
+
+        // parsing tag name
+        open_path = input.parse()?;
+
+        // parsing attributes
+        while input.peek(syn::Ident) {
+            attrs.push(input.parse()?);
         }
 
-        Ok(Tag {
-            path: open,
-            attributes: attrs,
-            body
-        })
-    }
-}
+        if input.peek(Token![/]) && input.peek2(Token![>]) {
+            // parsing closing "/>"
+            input.parse::<Token![/]>()?;
+            input.parse::<Token![>]>()?;
 
-impl Synom for Tag {
-    named!(parse -> Self, do_parse!(
-        t: alt!(
-            do_parse!(
-                        punct!(<)                  >>
-                open:   syn!(TypePath)             >>
-                attrs:  many0!(syn!(Attribute))    >>
-                        punct!(>)                  >>
-                body:   many0!(syn!(Node))         >>
-                        punct!(<) >> punct!(/)     >>
-                close:  syn!(TypePath)             >>
-                        punct!(>)                  >>
-                        
-                        (match Tag::new(open, Some(close), attrs, body) {
-                            Ok(v) => v,
-                            Err(e) => panic!("{:?}", e)
-                        })
-            ) => {|x|x}
-            |
-            do_parse!(
-                    punct!(<)                  >>
-            open:   syn!(TypePath)             >>
-            attrs:  many0!(syn!(Attribute))    >>
-                    punct!(/)                  >> 
-                    punct!(>)                  >>
-                    (Tag::new(open, None, attrs, vec![]).unwrap())
-            ) => {|x|x}
-        ) >> (t)
-    ));
+            close_path = open_path.clone();
+        } else {
+            // parsing closing ">"
+            input.parse::<Token![>]>()?;
+
+            // parsing children
+            while !(input.peek(Token![<]) && input.peek2(Token![/])) {
+                children.push(input.parse()?);
+            }
+
+            // parsing closing "</{tag path}>"
+            input.parse::<Token![<]>()?;
+            input.parse::<Token![/]>()?;
+            close_path = input.parse()?;
+            input.parse::<Token![>]>()?;
+        }
+
+        if close_path == open_path {
+            Ok(Tag {
+                path: open_path,
+                attributes: attrs,
+                body: children,
+            })
+        } else {
+            Err(input.error("open and close paths shoud match"))
+        }
+    }
 }
