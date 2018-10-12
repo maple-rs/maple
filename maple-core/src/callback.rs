@@ -23,7 +23,7 @@ impl<A, M, CB> Callback for Callback1<A, M, CB>
 {
     type Arg = A;
 
-    fn call(&self, arg: Self::Arg) {
+    fn call(&self, _arg: Self::Arg) {
         
     }
 }

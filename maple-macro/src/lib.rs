@@ -6,8 +6,6 @@ mod tag;
 
 #[macro_use]
 extern crate syn;
-
-#[macro_use]
 extern crate quote;
 extern crate proc_macro;
 
@@ -17,7 +15,6 @@ use quote::*;
 
 use self::node::Node;
 use self::attribute::{Attribute, AttributeValue};
-use self::tag::Tag;
 
 fn visit_attribute(ident: &Ident, attr: &Attribute, _ctx: &TypePath) -> impl ToTokens {
     let attr_name = &attr.name;

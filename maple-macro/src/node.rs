@@ -1,6 +1,4 @@
 use syn::parse::{Parse, ParseStream, Result};
-use quote::ToTokens;
-
 use crate::tag::Tag;
 
 #[derive(Debug)]

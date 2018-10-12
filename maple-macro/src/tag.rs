@@ -14,8 +14,8 @@ impl Parse for Tag {
     fn parse(input: ParseStream) -> Result<Self> {
         let mut attrs: Vec<Attribute> = Vec::new();
         let mut children: Vec<Node> = Vec::new();
-        let mut open_path: TypePath;
-        let mut close_path: TypePath;
+        let open_path: TypePath;
+        let close_path: TypePath;
 
         // parsing opening "<"
         input.parse::<Token![<]>()?;

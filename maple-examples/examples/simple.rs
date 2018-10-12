@@ -1,7 +1,6 @@
 #![feature(proc_macro_hygiene)]
 #![allow(dead_code)]
 
-#[macro_use]
 extern crate maple;
 extern crate maple_stdweb_dom;
 

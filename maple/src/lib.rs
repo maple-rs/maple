@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate maple_core;
 
 pub mod prelude {

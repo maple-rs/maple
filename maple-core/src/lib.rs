@@ -1,4 +1,4 @@
-#![feature(proc_macro, associated_type_defaults, never_type, unsize, specialization)]
+#![feature(associated_type_defaults, never_type, unsize, specialization)]
 
 pub mod convert;
 pub mod engine;
