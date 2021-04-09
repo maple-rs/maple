@@ -1,4 +1,5 @@
 #![feature(associated_type_defaults, never_type, unsize, specialization)]
+#![feature(generic_associated_types)]
 
 pub mod convert;
 pub mod engine;

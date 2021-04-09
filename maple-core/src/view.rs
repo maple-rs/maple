@@ -12,10 +12,10 @@ pub trait View<E, CE>
 {
     type InputContext: Context;
     type OutputContext: Context;
-    type Renderable: Renderable<E>;
+    type Renderable<T: Renderable<CE> + 'static>: Renderable<E>;
 
     fn receive_context(&mut self, ctx: Self::InputContext) -> Self::OutputContext;
-    fn build<C: Renderable<CE> + 'static>(self, children: Option<C>) -> Self::Renderable;
+    fn build<C: Renderable<CE> + 'static>(self, children: Option<C>) -> Self::Renderable<C>;
 }
 
 // It will have sense when `specialization` will be ready to use
