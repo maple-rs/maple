@@ -1,11 +1,11 @@
 [package]
-name = "maple"
+name = "maple-stdweb-dom"
 version = "0.1.0"
 authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
 edition = "2021"
 
 [dependencies]
 maple-core = {path = "../maple-core"}
-maple-macro = {path = "../maple-macro"}
-maple-stdui = {path = "../maple-stdui"}
 maple-stdweb = {path = "../maple-stdweb"}
+maple-stdui = {path = "../maple-stdui"}
+maple-macro = {path = "../maple-macro"}

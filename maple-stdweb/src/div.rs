@@ -13,7 +13,7 @@ pub struct DivProps {
     pub id: Option<&'static str>,
     pub name: Option<&'static str>,
     pub class: Option<&'static str>,
-    pub click: Option<Box<Fn() -> DivEvents>>
+    pub click: Option<Box<dyn Fn() -> DivEvents>>
 }
 
 impl Component for Div {

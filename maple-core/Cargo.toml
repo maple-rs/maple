@@ -1,9 +1,7 @@
-cargo-features = ["edition"]
-
 [package]
 name = "maple-core"
 version = "0.1.0"
 authors = ["Andrey Tkachenko <andreytkachenko64@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]

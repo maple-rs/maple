@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "maple",
+    "maple-core",
+    "maple-examples",
+    "maple-macro",
+    "maple-stdui",
+    "maple-stdweb",
+    "maple-stdweb-dom",
+]

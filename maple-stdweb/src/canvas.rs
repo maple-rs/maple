@@ -13,7 +13,7 @@ pub struct CanvasProps {
     pub id: Option<&'static str>,
     pub name: Option<&'static str>,
     pub class: Option<&'static str>,
-    pub click: Option<Box<Fn() -> CanvasEvents>>
+    pub click: Option<Box<dyn Fn() -> CanvasEvents>>
 }
 
 impl Component for Canvas {

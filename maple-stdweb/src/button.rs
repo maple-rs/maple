@@ -13,7 +13,7 @@ pub struct ButtonProps {
     pub id: Option<&'static str>,
     pub name: Option<&'static str>,
     pub class: Option<&'static str>,
-    pub click: Option<Box<Fn() -> ButtonEvents>>
+    pub click: Option<Box<dyn Fn() -> ButtonEvents>>
 }
 
 impl Component for Button {
