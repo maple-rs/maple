@@ -1,7 +1,7 @@
 use maple_core::prelude::Component;
 
 pub struct Circle {
-    pub props: CircleProps
+    pub props: CircleProps,
 }
 
 #[derive(Default)]
@@ -11,7 +11,7 @@ pub struct CircleProps {
     pub stroke: Option<&'static str>,
     pub cx: Option<u32>,
     pub cy: Option<u32>,
-    pub r: Option<u32>
+    pub r: Option<u32>,
 }
 
 impl Component for Circle {

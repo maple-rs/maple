@@ -1,12 +1,12 @@
-use syn::parse::{Parse, ParseStream, Result};
 use crate::tag::Tag;
+use syn::parse::{Parse, ParseStream, Result};
 
 #[derive(Debug)]
 crate enum Node {
     Tag(Tag),
     Text(syn::LitStr),
     Expr(syn::Expr),
-    Embed(syn::Expr)
+    Embed(syn::Expr),
 }
 
 impl Parse for Node {

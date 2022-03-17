@@ -1,4 +1,3 @@
-
 use std::default::Default;
 
 pub trait Component {
@@ -11,7 +10,6 @@ pub trait Component {
         return true;
     }
 }
-
 
 pub trait ComponentMsg {
     type Component: Component;

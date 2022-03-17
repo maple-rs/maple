@@ -1,16 +1,15 @@
 ///
-/// 
-/// 
-/// 
-/// 
-/// 
+///
+///
+///
+///
+///
 pub trait Context: Clone {
     type Context: Context;
 
     fn unwrap(self) -> Self::Context;
     fn wrap(ctx: Self::Context) -> Self;
 }
-
 
 #[derive(Clone)]
 pub struct DefaultContext;

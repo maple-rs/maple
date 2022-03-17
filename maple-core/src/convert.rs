@@ -1,5 +1,5 @@
-use std::marker::Unsize;
 use std::borrow::Cow;
+use std::marker::Unsize;
 
 pub trait MyFrom<T>: Sized {
     fn my_from(_: T) -> Self;
@@ -9,8 +9,7 @@ pub trait MyInto<T>: Sized {
     fn my_into(self) -> T;
 }
 
-impl<T, U: MyFrom<T>> MyInto<U> for T 
-{
+impl<T, U: MyFrom<T>> MyInto<U> for T {
     fn my_into(self) -> U {
         U::my_from(self)
     }
@@ -54,7 +53,7 @@ macro_rules! simple_impl {
                 t
             }
         }
-    }
+    };
 }
 
 simple_impl!(i64);

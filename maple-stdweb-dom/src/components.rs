@@ -1,4 +1,4 @@
-use super::{HtmlEngine, CanvasContextEngine};
+use super::{CanvasContextEngine, HtmlEngine};
 use std::collections::HashMap;
 
 use maple_core::prelude::*;
@@ -6,7 +6,7 @@ use maple_stdweb::*;
 
 /** Text **/
 
-impl Renderable<HtmlEngine> for Text {   
+impl Renderable<HtmlEngine> for Text {
     fn render(&self, eng: &HtmlEngine) {
         if let Some(text_ref) = &self.props.text {
             HtmlEngine::text(eng, text_ref);
@@ -16,9 +16,10 @@ impl Renderable<HtmlEngine> for Text {
 
 /** Div **/
 
-impl RenderImplementation<HtmlEngine, HtmlEngine> for Div {   
+impl RenderImplementation<HtmlEngine, HtmlEngine> for Div {
     fn render_impl<C>(&self, eng: &HtmlEngine, children: &C)
-        where C: Renderable<HtmlEngine> 
+    where
+        C: Renderable<HtmlEngine>,
     {
         let mut attrs = HashMap::new();
 
@@ -42,7 +43,8 @@ impl View<HtmlEngine, HtmlEngine> for Div {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         Node::new(self, children)
     }
@@ -50,9 +52,10 @@ impl View<HtmlEngine, HtmlEngine> for Div {
 
 /** Span **/
 
-impl RenderImplementation<HtmlEngine, HtmlEngine> for Span {   
+impl RenderImplementation<HtmlEngine, HtmlEngine> for Span {
     fn render_impl<C>(&self, eng: &HtmlEngine, children: &C)
-        where C: Renderable<HtmlEngine> 
+    where
+        C: Renderable<HtmlEngine>,
     {
         HtmlEngine::open(eng, "span", None);
         children.render(eng);
@@ -70,18 +73,19 @@ impl View<HtmlEngine, HtmlEngine> for Span {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         Node::new(self, children)
     }
 }
 
-
 /** Button **/
 
-impl RenderImplementation<HtmlEngine, HtmlEngine> for Button {    
+impl RenderImplementation<HtmlEngine, HtmlEngine> for Button {
     fn render_impl<C>(&self, eng: &HtmlEngine, children: &C)
-        where C: Renderable<HtmlEngine> 
+    where
+        C: Renderable<HtmlEngine>,
     {
         HtmlEngine::open(eng, "button", None);
         children.render(eng);
@@ -99,15 +103,17 @@ impl View<HtmlEngine, HtmlEngine> for Button {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         Node::new(self, children)
     }
 }
 
-impl RenderImplementation<HtmlEngine, CanvasContextEngine> for Canvas {   
+impl RenderImplementation<HtmlEngine, CanvasContextEngine> for Canvas {
     fn render_impl<C>(&self, eng: &HtmlEngine, children: &C)
-        where C: Renderable<CanvasContextEngine> 
+    where
+        C: Renderable<CanvasContextEngine>,
     {
         let can_eng = CanvasContextEngine::new();
         let mut attrs = HashMap::new();
@@ -116,9 +122,12 @@ impl RenderImplementation<HtmlEngine, CanvasContextEngine> for Canvas {
         eng.open("canvas", Some(attrs));
         children.render(&can_eng);
         eng.close("canvas");
-        eng.script(&format!("
+        eng.script(&format!(
+            "
         var c=document.getElementById(\"myCanvas\");
-        var ctx=c.getContext(\"2d\"); {};", can_eng.to_string()));
+        var ctx=c.getContext(\"2d\"); {};",
+            can_eng.to_string()
+        ));
     }
 }
 
@@ -132,7 +141,8 @@ impl View<HtmlEngine, CanvasContextEngine> for Canvas {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<CanvasContextEngine> + 'static
+    where
+        C: Renderable<CanvasContextEngine> + 'static,
     {
         Node::new(self, children)
     }

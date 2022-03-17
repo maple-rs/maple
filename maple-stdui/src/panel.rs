@@ -1,7 +1,7 @@
 use maple_core::prelude::*;
 
 pub struct Panel {
-    props: PanelProps
+    props: PanelProps,
 }
 
 #[derive(Default)]

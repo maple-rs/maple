@@ -1,11 +1,11 @@
 use maple_core::prelude::Component;
 
 pub enum CanvasEvents {
-    Click
+    Click,
 }
 
 pub struct Canvas {
-    pub props: CanvasProps
+    pub props: CanvasProps,
 }
 
 #[derive(Default)]
@@ -13,7 +13,7 @@ pub struct CanvasProps {
     pub id: Option<&'static str>,
     pub name: Option<&'static str>,
     pub class: Option<&'static str>,
-    pub click: Option<Box<dyn Fn() -> CanvasEvents>>
+    pub click: Option<Box<dyn Fn() -> CanvasEvents>>,
 }
 
 impl Component for Canvas {
@@ -24,7 +24,7 @@ impl Component for Canvas {
         Canvas { props }
     }
 
-    fn update(&mut self, msg: Self::Msg) -> bool {
+    fn update(&mut self, _msg: Self::Msg) -> bool {
         true
     }
 }

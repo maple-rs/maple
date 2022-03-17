@@ -1,8 +1,8 @@
+use super::HtmlEngine;
 use maple_core::prelude::*;
 use maple_macro::view;
-use maple_stdweb::*;
 use maple_stdui::prelude::Panel;
-use super::HtmlEngine;
+use maple_stdweb::*;
 
 impl View<HtmlEngine, HtmlEngine> for Panel {
     type InputContext = DefaultContext;
@@ -14,7 +14,8 @@ impl View<HtmlEngine, HtmlEngine> for Panel {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         view! {
             <Div class="panel">

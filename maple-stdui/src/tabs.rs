@@ -1,12 +1,12 @@
-use std::ops::Deref;
 use maple_core::prelude::*;
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::ops::Deref;
+use std::rc::Rc;
 
 #[derive(Clone)]
-pub struct TabsContext<T: Context> { 
+pub struct TabsContext<T: Context> {
     inner: T,
-    tabs: Rc<RefCell<Vec<Option<&'static str>>>>
+    tabs: Rc<RefCell<Vec<Option<&'static str>>>>,
 }
 
 impl<T: Context> TabsContext<T> {
@@ -15,7 +15,7 @@ impl<T: Context> TabsContext<T> {
     }
 
     pub fn get_tabs(&self) -> Vec<Option<&'static str>> {
-        return self.tabs.borrow().clone()
+        return self.tabs.borrow().clone();
     }
 }
 
@@ -29,13 +29,15 @@ impl<T: Context> Context for TabsContext<T> {
     fn wrap(ctx: Self::Context) -> Self {
         Self {
             inner: ctx,
-            tabs: Default::default()
+            tabs: Default::default(),
         }
     }
 }
 
 #[derive(Clone)]
-pub struct TabsBodyContext<T: Context> { inner: TabsContext<T> }
+pub struct TabsBodyContext<T: Context> {
+    inner: TabsContext<T>,
+}
 
 impl<T: Context> Context for TabsBodyContext<T> {
     type Context = TabsContext<T>;
@@ -45,9 +47,7 @@ impl<T: Context> Context for TabsBodyContext<T> {
     }
 
     fn wrap(ctx: Self::Context) -> Self {
-        Self {
-            inner: ctx
-        }
+        Self { inner: ctx }
     }
 }
 
@@ -60,16 +60,16 @@ impl<T: Context> Deref for TabsBodyContext<T> {
 }
 
 pub struct Tabs {
-    props: TabsProps
+    props: TabsProps,
 }
 
 pub enum TabsEvent {
-    TabChange(usize)
+    TabChange(usize),
 }
 
 #[derive(Default)]
 pub struct TabsProps {
-    pub on_tab_change: Option<Box<dyn Callback<Arg=usize>>>
+    pub on_tab_change: Option<Box<dyn Callback<Arg = usize>>>,
 }
 
 impl Component for Tabs {
@@ -88,18 +88,18 @@ impl Component for Tabs {
                 }
             }
         };
-        
+
         false
     }
 }
 
 pub struct Header {
     pub props: HeaderProps,
-    pub tabs_ctx: Option<TabsContext<DefaultContext>>
+    pub tabs_ctx: Option<TabsContext<DefaultContext>>,
 }
 
 pub enum HeaderEvent {
-    Click(usize)
+    Click(usize),
 }
 
 impl ComponentMsg for HeaderEvent {
@@ -108,7 +108,7 @@ impl ComponentMsg for HeaderEvent {
 
 #[derive(Default)]
 pub struct HeaderProps {
-    pub on_click: Option<Box<dyn Callback<Arg=usize>>>
+    pub on_click: Option<Box<dyn Callback<Arg = usize>>>,
 }
 
 impl Component for Header {
@@ -116,12 +116,12 @@ impl Component for Header {
     type Msg = HeaderEvent;
 
     fn create(props: HeaderProps) -> Self {
-        Header { 
+        Header {
             props,
-            tabs_ctx: Default::default()
+            tabs_ctx: Default::default(),
         }
     }
-    
+
     fn update(&mut self, msg: Self::Msg) -> bool {
         match msg {
             HeaderEvent::Click(idx) => {
@@ -130,13 +130,13 @@ impl Component for Header {
                 }
             }
         };
-        
+
         false
     }
 }
 
 pub struct Body {
-    pub props: BodyProps
+    pub props: BodyProps,
 }
 
 #[derive(Default)]
@@ -151,12 +151,12 @@ impl Component for Body {
 }
 
 pub struct Tab {
-   pub props: TabProps
+    pub props: TabProps,
 }
 
 #[derive(Default)]
 pub struct TabProps {
-    pub title: Option<&'static str>
+    pub title: Option<&'static str>,
 }
 
 impl Component for Tab {

@@ -1,11 +1,11 @@
 use maple_core::prelude::Component;
 
 pub enum ButtonEvents {
-    Click
+    Click,
 }
 
 pub struct Button {
-    props: ButtonProps
+    props: ButtonProps,
 }
 
 #[derive(Default)]
@@ -13,7 +13,7 @@ pub struct ButtonProps {
     pub id: Option<&'static str>,
     pub name: Option<&'static str>,
     pub class: Option<&'static str>,
-    pub click: Option<Box<dyn Fn() -> ButtonEvents>>
+    pub click: Option<Box<dyn Fn() -> ButtonEvents>>,
 }
 
 impl Component for Button {
@@ -24,7 +24,7 @@ impl Component for Button {
         Button { props }
     }
 
-    fn update(&mut self, msg: Self::Msg) -> bool {
+    fn update(&mut self, _msg: Self::Msg) -> bool {
         false
     }
 }

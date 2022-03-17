@@ -1,11 +1,11 @@
 use maple_core::prelude::*;
 
 pub enum SpanEvents {
-    Click
+    Click,
 }
 
 pub struct Span {
-    props: SpanProps
+    props: SpanProps,
 }
 
 #[derive(Default)]
@@ -13,7 +13,7 @@ pub struct SpanProps {
     pub id: Option<&'static str>,
     pub name: Option<&'static str>,
     pub class: Option<&'static str>,
-    pub click: Option<Box<dyn Callback<Arg=()>>>
+    pub click: Option<Box<dyn Callback<Arg = ()>>>,
 }
 
 impl Component for Span {

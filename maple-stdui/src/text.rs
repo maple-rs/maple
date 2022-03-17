@@ -1,19 +1,19 @@
-use std::borrow::Cow;
 use maple_core::prelude::Component;
+use std::borrow::Cow;
 
 pub struct Text {
-    pub props: TextProps
+    pub props: TextProps,
 }
 
 #[derive(Default)]
 pub struct TextProps {
-    pub text: Option<Cow<'static, str>>
+    pub text: Option<Cow<'static, str>>,
 }
 
 impl TextProps {
     pub fn new<T: Into<Cow<'static, str>>>(txt: T) -> Self {
         TextProps {
-            text: Some(txt.into())
+            text: Some(txt.into()),
         }
     }
 }

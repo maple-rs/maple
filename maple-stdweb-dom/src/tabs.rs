@@ -1,9 +1,8 @@
+use super::HtmlEngine;
 use maple_core::prelude::*;
 use maple_macro::view;
-use maple_stdweb::*;
 use maple_stdui::prelude::tabs::*;
-use super::HtmlEngine;
-
+use maple_stdweb::*;
 
 impl View<HtmlEngine, HtmlEngine> for Tabs {
     type InputContext = DefaultContext;
@@ -15,7 +14,8 @@ impl View<HtmlEngine, HtmlEngine> for Tabs {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         view! {
             <Div class="tabs">
@@ -36,22 +36,26 @@ impl View<HtmlEngine, HtmlEngine> for Header {
         ctx.unwrap()
     }
 
-    fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    fn build<C>(self, _children: Option<C>) -> Self::Renderable<C>
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
-        let tabs = self.tabs_ctx.map(|ctx|
+        let tabs = self.tabs_ctx.map(|ctx| {
             ctx.get_tabs()
                 .iter()
                 .enumerate()
-                .map(|(i, tab)| view! {
-                    <Span class="tab-title" click={move |_| HeaderEvent::Click(i)}>
-                        {match tab {
-                            Some(val) => val,
-                            None => "<No title>"
-                        }}
-                    </Span>
+                .map(|(i, tab)| {
+                    view! {
+                        <Span class="tab-title" click={move |_| HeaderEvent::Click(i)}>
+                            {match tab {
+                                Some(val) => val,
+                                None => "<No title>"
+                            }}
+                        </Span>
+                    }
                 })
-                .collect::<Vec<_>>());
+                .collect::<Vec<_>>()
+        });
 
         view! {
             <Div class="tabs-header">
@@ -69,9 +73,10 @@ impl View<HtmlEngine, HtmlEngine> for Body {
     fn receive_context(&mut self, ctx: Self::InputContext) -> Self::OutputContext {
         TabsBodyContext::wrap(ctx)
     }
- 
+
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         view! {
             <Div class="tab">
@@ -92,7 +97,8 @@ impl View<HtmlEngine, HtmlEngine> for Tab {
     }
 
     fn build<C>(self, children: Option<C>) -> Self::Renderable<C>
-        where C: Renderable<HtmlEngine> + 'static
+    where
+        C: Renderable<HtmlEngine> + 'static,
     {
         view! {
             <Div class="tab">

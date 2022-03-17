@@ -1,14 +1,15 @@
+use crate::context::Context;
 use crate::engine::Engine;
 use crate::renderable::Renderable;
-use crate::context::Context;
 ///
-/// 
-/// 
-/// 
-/// 
+///
+///
+///
+///
 pub trait View<E, CE>
-    where E: Engine,
-          CE: Engine,
+where
+    E: Engine,
+    CE: Engine,
 {
     type InputContext: Context;
     type OutputContext: Context;

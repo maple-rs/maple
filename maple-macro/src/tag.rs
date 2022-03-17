@@ -1,13 +1,13 @@
 use crate::attribute::Attribute;
 use crate::node::Node;
-use syn::TypePath;
 use syn::parse::{Parse, ParseStream, Result};
+use syn::TypePath;
 
 #[derive(Debug)]
 crate struct Tag {
     pub path: TypePath,
     pub attributes: Vec<Attribute>,
-    pub body: Vec<Node>
+    pub body: Vec<Node>,
 }
 
 impl Parse for Tag {

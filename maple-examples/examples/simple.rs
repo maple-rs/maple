@@ -11,9 +11,9 @@ macro_rules! children {
 
 use maple::prelude::*;
 
-use std::default::Default;
-use maple::prelude::tabs::*;
 use maple::prelude::prelude::Panel;
+use maple::prelude::tabs::*;
+use std::default::Default;
 
 use maple_stdweb_dom::*;
 
@@ -43,7 +43,7 @@ fn main() {
                         <Tab title="Tab 1">
                             <Span>"Tab 1 Content"</Span>
                         </Tab>
-   
+
                         <Tab title="Tab 2">
                             <Button>"But in Tab " {1 + 1} </Button>
                         </Tab>
